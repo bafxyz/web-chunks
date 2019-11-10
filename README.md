@@ -1,13 +1,13 @@
 # webpack-config
 
-This is shared [Webpack](http://webpack.github.io) config used for js projects. It compiles JavaScript and TypeScript with [Babel](https://babeljs.io). It is also configured to add hashes to filenames for easy caching, and inlines images and fonts as Data URIs if small enough.
+This is my shared [Webpack](http://webpack.github.io) config used in most of my projects. It compiles JavaScript and TypeScript with [Babel](https://babeljs.io). It is also configured to add hashes to filenames for easy caching, and inlines images and fonts as Data URIs if small enough.
 
 ### Getting Started
 
 Install this package and Webpack via NPM:
 
 ```
-npm install webpack @bafxyz/config --save-dev
+npm install webpack web-chunks --save-dev
 ```
 
 Add some scripts to your `package.json`:
@@ -28,18 +28,36 @@ Create a `webpack.config.js` in your project directory, and set it up like so:
 ```js
 // webpack.config.js
 
-var webpack = require('webpack')
-var configure = require('@bafxyz/config')
+const webpack = require('webpack')
+const configure = require('web-chunks')
 
 module.exports = configure({
     entry: {
         // Add your bundles here, so in this case
         // ./src/app.js ==> ./dist/app-[hash].js
-        app: './src/app.js'
     }
 
     // Override any other Webpack settings here!
     // see: https://webpack.js.org/configuration/
+})
+```
+
+Full webpack config has: `babel, css, sass, eslint, url, file, source-map` loaders
+
+If for some reason full webpack config is not needed, simple loader can imported like this
+
+```js
+// webpack.config.js
+const webpack = require('webpack')
+const sassLoader = require('web-chunks/dist/loaders/babel')
+
+module.exports = configure({
+    module: {
+        rules: [
+            // Bundle SCSS stylesheets (processed with LibSass & PostCSS), extract to single CSS file per bundle.
+            sassLoader()
+        ]
+    }
 })
 ```
 

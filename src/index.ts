@@ -1,43 +1,39 @@
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const WebpackAssetsManifest = require('webpack-assets-manifest')
+import webpack from 'webpack'
+import { WebpackOptions } from 'webpack/declarations/WebpackOptions'
+import merge from 'webpack-merge'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import WebpackAssetsManifest from 'webpack-assets-manifest'
+
+import { eslintLoader, sourceMapLoader, babelLoader, urlLoader, cssLoader, sassLoader } from './loaders'
 
 // Default Webpack configuration
 // @see: https://webpack.js.org/configuration/
 const baseConfig = {
     entry: {
-        // ...
+        app: process.cwd() + '/src/index.ts'
     },
 
     output: {
         filename: '[name]-[chunkhash].js',
-        path: 'dist'
+        path: process.cwd() + '/dist'
     },
 
     module: {
         rules: [
-            // Bundle JavaScript, and transform to ES5 using Babel.
-            { test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] },
-
+            // Lint JavaScript/TypeScript files.
+            eslintLoader(),
+            // Creates source maps.
+            sourceMapLoader(),
+            // Bundle JavaScript, and transform to ES6 using Babel.
+            // { test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] }
+            babelLoader(),
             // Bundle static assets, either hashing filename or inlining into bundle if under 8KB
-            {
-                test: /\.(png|jpe?g|eot|gif|woff2?|svg|ttf)$/,
-                use: ['url-loader?limit=8192']
-            },
-
+            urlLoader(),
             // Bundle CSS stylesheets and process with PostCSS, extract to single CSS file per bundle.
-            {
-                test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader?sourceMap', 'postcss-loader']
-            },
-
+            cssLoader(),
             // Bundle SCSS stylesheets (processed with LibSass & PostCSS), extract to single CSS file per bundle.
-            {
-                test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader?sourceMap', 'postcss-loader', 'sass-loader?sourceMap']
-            }
+            sassLoader()
         ]
     },
 
@@ -52,19 +48,13 @@ const baseConfig = {
         new WebpackAssetsManifest({
             output: 'rev-manifest.json'
         })
-    ],
-
-    stats: {
-        // Don't print noisy output for extracted CSS children.
-        children: false
-    }
+    ]
 }
 
 // Options that should only be applied in development builds:
 const developmentConfig = {
     // Set common development options. <goo.gl/3h6o6p>
     mode: 'development',
-
     // Enable source maps for development (inline, with faster rebuilds).
     devtool: 'cheap-module-source-map'
 }
@@ -73,7 +63,6 @@ const developmentConfig = {
 const productionConfig = {
     // Set common production options. <goo.gl/nYfBtH>
     mode: 'production',
-
     // Enable source maps for production (in a separate file, so they
     // will only load if the user has dev tools open).
     devtool: 'source-map'
@@ -81,9 +70,9 @@ const productionConfig = {
 
 // Export a `configure()` function for applications to
 // import & extend in their `webpack.config.js` files.
-module.exports = (options: any) => (env: string) => {
+module.exports = (options: WebpackOptions) => (env: string) => {
     const isProduction = env === 'production'
-    const environmentConfig = isProduction ? productionConfig : developmentConfig
+    const environmentConfig: any = isProduction ? productionConfig : developmentConfig
 
     // Merge our base config, environment overrides, and per-app overrides.
     const config = merge(baseConfig, environmentConfig, options)

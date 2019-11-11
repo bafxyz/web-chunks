@@ -7,9 +7,16 @@ exports["default"] = void 0;
 
 var _default = function _default() {
   return {
-    test: /\.tsx?$/,
-    loader: 'source-map-loader',
-    enforce: 'pre'
+    test: /\.svgx$/,
+    use: {
+      loader: require.resolve('svg-react-loader'),
+      options: {
+        attrs: {
+          width: '1em',
+          height: '1em'
+        }
+      }
+    }
   };
 };
 

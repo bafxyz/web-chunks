@@ -42,9 +42,9 @@ module.exports = configure({
 })
 ```
 
-Full webpack config has: `babel, css, sass, eslint, url, file, source-map` loaders
+Full webpack config has: `babel, css, sass, eslint, url, source-map` loaders
 
-If for some reason full webpack config is not needed, simple loader can imported like this
+If for some reason full webpack config is not needed, simple loader can be imported like this
 
 ```js
 // webpack.config.js

@@ -7,9 +7,9 @@ exports["default"] = void 0;
 
 var _default = function _default() {
   return {
-    test: /\.tsx?$/,
-    loader: 'source-map-loader',
-    enforce: 'pre'
+    test: /\.mjs$/,
+    include: /node_modules/,
+    type: 'javascript/auto'
   };
 };
 

@@ -1,16 +1,16 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
-    value: true
-})
-exports['default'] = void 0
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 var _default = function _default() {
-    return {
-        test: /\.[jt]sx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-    }
-}
+  return {
+    test: /\.[jt]sx?$/,
+    loader: 'babel-loader',
+    exclude: /node_modules/
+  };
+};
 
-exports['default'] = _default
+exports["default"] = _default;

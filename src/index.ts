@@ -5,7 +5,16 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import WebpackAssetsManifest from 'webpack-assets-manifest'
 
-import { eslintLoader, sourceMapLoader, babelLoader, urlLoader, cssLoader, sassLoader } from './loaders'
+import eslintLoader from './loaders/eslint'
+import babelLoader from './loaders/babel'
+import cssLoader from './loaders/css'
+import sassLoader from './loaders/sass'
+import imageLoader from './loaders/image'
+import fontsLoader from './loaders/fonts'
+import svgxLoader from './loaders/svgx'
+import rawLoader from './loaders/raw'
+import mjsLoader from './loaders/mjs'
+import sourceMapLoader from './loaders/source-map'
 
 // Default Webpack configuration
 // @see: https://webpack.js.org/configuration/
@@ -23,17 +32,24 @@ const baseConfig = {
         rules: [
             // Lint JavaScript/TypeScript files.
             eslintLoader(),
-            // Creates source maps.
-            sourceMapLoader(),
             // Bundle JavaScript, and transform to ES6 using Babel.
-            // { test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] }
             babelLoader(),
-            // Bundle static assets, either hashing filename or inlining into bundle if under 8KB
-            urlLoader(),
             // Bundle CSS stylesheets and process with PostCSS, extract to single CSS file per bundle.
             cssLoader(),
             // Bundle SCSS stylesheets (processed with LibSass & PostCSS), extract to single CSS file per bundle.
-            sassLoader()
+            sassLoader(),
+            // Bundle image with optimization
+            imageLoader(),
+            // Bundle fonts
+            fontsLoader(),
+            // Allowing for inline usage of a SVG as a React component
+            svgxLoader(),
+            // Bundles files as text
+            rawLoader(),
+            // Mjs type handler
+            mjsLoader(),
+            // Creates source maps.
+            sourceMapLoader()
         ]
     },
 

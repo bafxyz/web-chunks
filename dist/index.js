@@ -32,15 +32,19 @@ var _sourceMap = _interopRequireDefault(require("./loaders/source-map"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-// Default Webpack configuration
+var paths = {
+  src: process.cwd() + '/src',
+  dist: process.cwd() + '/dist'
+}; // Default Webpack configuration
 // @see: https://webpack.js.org/configuration/
+
 var baseConfig = {
   entry: {
-    app: process.cwd() + '/src/index.ts'
+    app: "".concat(paths.src, "/index.ts")
   },
   output: {
     filename: '[name]-[chunkhash].js',
-    path: process.cwd() + '/dist'
+    path: paths.dist
   },
   module: {
     rules: [// Lint JavaScript/TypeScript files.
@@ -54,6 +58,12 @@ var baseConfig = {
     (0, _raw["default"])(), // Mjs type handler
     (0, _mjs["default"])(), // Creates source maps.
     (0, _sourceMap["default"])()]
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    alias: {
+      '~': paths.src
+    }
   },
   plugins: [// Extract all stylesheets referenced in each bundle into a single CSS file.
   new _miniCssExtractPlugin["default"]({
@@ -84,9 +94,7 @@ var productionConfig = {
 module.exports = function (options) {
   return function (env) {
     var isProduction = env === 'production';
-    var environmentConfig = isProduction ? productionConfig : developmentConfig; // Merge our base config, environment overrides, and per-app overrides.
-
-    var config = (0, _webpackMerge["default"])(baseConfig, environmentConfig, options); // Apply any final options based on the merged config.
+    var environmentConfig = isProduction ? productionConfig : developmentConfig; // Apply any final options based on the merged config.
 
     var extraConfig = {
       plugins: [// Set NODE_ENV based on the provided Webpack environment.
@@ -95,6 +103,8 @@ module.exports = function (options) {
       }), // Clean the output path before builds.
       new _cleanWebpackPlugin.CleanWebpackPlugin()]
     };
-    return (0, _webpackMerge["default"])(config, extraConfig);
+    var config = (0, _webpackMerge["default"])(baseConfig, environmentConfig, options, extraConfig);
+    console.log('TCL: config', config);
+    return config;
   };
 };

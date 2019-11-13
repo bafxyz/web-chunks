@@ -16,16 +16,21 @@ import rawLoader from './loaders/raw'
 import mjsLoader from './loaders/mjs'
 import sourceMapLoader from './loaders/source-map'
 
+const paths = {
+    src: process.cwd() + '/src',
+    dist: process.cwd() + '/dist'
+}
+
 // Default Webpack configuration
 // @see: https://webpack.js.org/configuration/
 const baseConfig = {
     entry: {
-        app: process.cwd() + '/src/index.ts'
+        app: `${paths.src}/index.ts`
     },
 
     output: {
         filename: '[name]-[chunkhash].js',
-        path: process.cwd() + '/dist'
+        path: paths.dist
     },
 
     module: {
@@ -51,6 +56,13 @@ const baseConfig = {
             // Creates source maps.
             sourceMapLoader()
         ]
+    },
+
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+        alias: {
+            '~': paths.src
+        }
     },
 
     plugins: [
@@ -89,10 +101,6 @@ const productionConfig = {
 module.exports = (options: WebpackOptions) => (env: string) => {
     const isProduction = env === 'production'
     const environmentConfig: any = isProduction ? productionConfig : developmentConfig
-
-    // Merge our base config, environment overrides, and per-app overrides.
-    const config = merge(baseConfig, environmentConfig, options)
-
     // Apply any final options based on the merged config.
     const extraConfig = {
         plugins: [
@@ -105,5 +113,8 @@ module.exports = (options: WebpackOptions) => (env: string) => {
         ]
     }
 
-    return merge(config, extraConfig)
+    const config = merge(baseConfig, environmentConfig, options, extraConfig)
+    console.log('TCL: config', config)
+
+    return config
 }

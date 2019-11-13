@@ -113,8 +113,7 @@ module.exports = (options: WebpackOptions) => (env: string) => {
         ]
     }
 
-    const config = merge(baseConfig, environmentConfig, options, extraConfig)
-    console.log('TCL: config', config)
+    const result = merge(baseConfig, environmentConfig, options, extraConfig)
 
-    return config
+    return result
 }

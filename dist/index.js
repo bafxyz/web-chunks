@@ -103,8 +103,7 @@ module.exports = function (options) {
       }), // Clean the output path before builds.
       new _cleanWebpackPlugin.CleanWebpackPlugin()]
     };
-    var config = (0, _webpackMerge["default"])(baseConfig, environmentConfig, options, extraConfig);
-    console.log('TCL: config', config);
-    return config;
+    var result = (0, _webpackMerge["default"])(baseConfig, environmentConfig, options, extraConfig);
+    return result;
   };
 };

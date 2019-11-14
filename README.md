@@ -15,11 +15,12 @@ Add some scripts to your `package.json`:
 ```js
 {
   // ...
-  "scripts": {
-    "start": "webpack --env=development --hide-modules --watch",
-    "build:dev": "webpack --env=development --hide-modules",
-    "build": "webpack --env=production",
-  }
+    "scripts": {
+        "clean": "rm -rf dist",
+        "start": "webpack-dev-server --env=development --port 5000 --host=0.0.0.0",
+        "build": "webpack --env=production",
+        "build:watch": "npm run clean && webpack --env=prodduction --hide-modules --watch"
+    }
 }
 ```
 
@@ -32,24 +33,25 @@ const webpack = require('webpack')
 const configure = require('web-chunks')
 
 module.exports = configure({
-    entry: {
-        // Add your bundles here, so in this case
-        // ./src/app.js ==> ./dist/app-[hash].js
+    entry: './app/entry', // defaults to ./src
+    output: {
+        path: './foo/' // defaults to ./dist and other rules
     }
-
     // Override any other Webpack settings here!
     // see: https://webpack.js.org/configuration/
+
+    // Default config can be found here https://github.com/bafxyz/web-chunks/blob/master/src/index.ts
 })
 ```
 
-Full webpack config has: `babel, css, sass, eslint, url, source-map` loaders
+Supports out of the box: `babel (typescript, react), css, sass, eslint, small assets as base64, images minifation, source maps`
 
-If for some reason full webpack config is not needed, simple loader can be imported like this
+If for some reason full webpack config is not needed, you can still use some loaders
 
 ```js
 // webpack.config.js
 const webpack = require('webpack')
-const sassLoader = require('web-chunks/dist/loaders/babel')
+const sassLoader = require('web-chunks/dist/loaders/sass')
 
 module.exports = configure({
     module: {
@@ -72,11 +74,11 @@ module.exports = {
 }
 ```
 
-For example, the above configuration post-processes your CSS Autoprefixer.
+## To be able to use all the features from this webpack config be sure what you install all the necessary peerDependencies
 
 Now you can run `npm start` to build with source maps and watch for changes, and `npm run build` to build optimized assets for production! If you need to further customize your build, you can pass any overrides in to the configure function.
 
 ### License
 
 &copy; This config is free software, and may be redistributed under the
-terms specified in the [LICENSE](https://github.com/bafxyz/config/blob/master/LICENSE) file.
+terms specified in the [LICENSE](https://github.com/bafxyz/web-chunks/blob/master/LICENSE) file.

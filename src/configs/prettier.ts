@@ -1,4 +1,5 @@
-module.exports = () => ({
+// prettier.config.js
+module.exports = {
     useTabs: false,
     printWidth: 120,
     tabWidth: 4,
@@ -6,4 +7,4 @@ module.exports = () => ({
     trailingComma: 'none',
     jsxBracketSameLine: false,
     semi: false
-})
+}

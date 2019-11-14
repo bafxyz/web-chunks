@@ -30,21 +30,21 @@ var _mjs = _interopRequireDefault(require("./loaders/mjs"));
 
 var _sourceMap = _interopRequireDefault(require("./loaders/source-map"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _development = require("./development");
 
-var paths = {
-  src: process.cwd() + '/src',
-  dist: process.cwd() + '/dist'
-}; // Default Webpack configuration
-// @see: https://webpack.js.org/configuration/
+var _production = require("./production");
+
+var _paths = require("./paths");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var baseConfig = {
   entry: {
-    app: "".concat(paths.src, "/index.ts")
+    app: "".concat(_paths.paths.src, "/index.ts")
   },
   output: {
     filename: '[name]-[chunkhash].js',
-    path: paths.dist
+    path: _paths.paths.dist
   },
   module: {
     rules: [// Lint JavaScript/TypeScript files.
@@ -62,7 +62,7 @@ var baseConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     alias: {
-      '~': paths.src
+      '~': _paths.paths.src
     }
   },
   plugins: [// Extract all stylesheets referenced in each bundle into a single CSS file.
@@ -73,28 +73,13 @@ var baseConfig = {
   new _webpackAssetsManifest["default"]({
     output: 'rev-manifest.json'
   })]
-}; // Options that should only be applied in development builds:
-
-var developmentConfig = {
-  // Set common development options. <goo.gl/3h6o6p>
-  mode: 'development',
-  // Enable source maps for development (inline, with faster rebuilds).
-  devtool: 'cheap-module-source-map'
-}; // Options that should only be applied in production builds:
-
-var productionConfig = {
-  // Set common production options. <goo.gl/nYfBtH>
-  mode: 'production',
-  // Enable source maps for production (in a separate file, so they
-  // will only load if the user has dev tools open).
-  devtool: 'source-map'
-}; // Export a `configure()` function for applications to
+}; // Export a `config()` function for applications to
 // import & extend in their `webpack.config.js` files.
 
 module.exports = function (options) {
   return function (env) {
     var isProduction = env === 'production';
-    var environmentConfig = isProduction ? productionConfig : developmentConfig; // Apply any final options based on the merged config.
+    var environmentConfig = isProduction ? (0, _production.productionConfig)() : (0, _development.developmentConfig)(); // Apply any final options based on the merged config.
 
     var extraConfig = {
       plugins: [// Set NODE_ENV based on the provided Webpack environment.

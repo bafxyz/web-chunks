@@ -6,8 +6,6 @@ var _webpackMerge = _interopRequireDefault(require("webpack-merge"));
 
 var _cleanWebpackPlugin = require("clean-webpack-plugin");
 
-var _miniCssExtractPlugin = _interopRequireDefault(require("mini-css-extract-plugin"));
-
 var _webpackAssetsManifest = _interopRequireDefault(require("webpack-assets-manifest"));
 
 var _eslint = _interopRequireDefault(require("./loaders/eslint"));
@@ -65,11 +63,7 @@ var baseConfig = {
       '~': _paths.paths.src
     }
   },
-  plugins: [// Extract all stylesheets referenced in each bundle into a single CSS file.
-  new _miniCssExtractPlugin["default"]({
-    filename: '[name]-[chunkhash].css',
-    chunkFilename: '[id].css'
-  }), // Create asset manifest (allowing Laravel or other apps to get hashed asset names).
+  plugins: [// Create asset manifest (allowing Laravel or other apps to get hashed asset names).
   new _webpackAssetsManifest["default"]({
     output: 'rev-manifest.json'
   })]

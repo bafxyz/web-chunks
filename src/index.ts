@@ -2,7 +2,6 @@ import webpack from 'webpack'
 import { WebpackOptions } from 'webpack/declarations/WebpackOptions'
 import merge from 'webpack-merge'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import WebpackAssetsManifest from 'webpack-assets-manifest'
 
 import eslintLoader from './loaders/eslint'
@@ -59,17 +58,13 @@ const baseConfig = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
         alias: {
-            '~': paths.src
+            '~': paths.src,
+            '@': paths.nodeModules,
+            'react-dom': '@hot-loader/react-dom'
         }
     },
 
     plugins: [
-        // Extract all stylesheets referenced in each bundle into a single CSS file.
-        new MiniCssExtractPlugin({
-            filename: '[name]-[chunkhash].css',
-            chunkFilename: '[id].css'
-        }),
-
         // Create asset manifest (allowing Laravel or other apps to get hashed asset names).
         new WebpackAssetsManifest({
             output: 'rev-manifest.json'

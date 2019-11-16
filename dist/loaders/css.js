@@ -5,14 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _miniCssExtractPlugin = _interopRequireDefault(require("mini-css-extract-plugin"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var _default = function _default() {
   return {
     test: /\.css$/,
-    use: [_miniCssExtractPlugin["default"].loader, 'css-loader?sourceMap', 'postcss-loader']
+    use: ['style-loader', 'css-loader?sourceMap', 'postcss-loader']
   };
 };
 

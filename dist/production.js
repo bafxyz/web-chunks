@@ -21,18 +21,20 @@ var productionConfig = function productionConfig() {
     // will only load if the user has dev tools open).
     devtool: 'source-map',
     // Splits code to multiple chunks
-    splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: 25,
-      minSize: 20000,
-      maxSize: 200000
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        maxInitialRequests: 25,
+        minSize: 20000,
+        maxSize: 200000
+      },
+      minimizer: [new _terserWebpackPlugin["default"]({
+        parallel: true,
+        terserOptions: {
+          safari10: true
+        }
+      })]
     },
-    minimizer: [new _terserWebpackPlugin["default"]({
-      parallel: true,
-      terserOptions: {
-        safari10: true
-      }
-    })],
     plugins: [new _htmlWebpackPlugin["default"]({
       inject: true,
       template: _paths.paths.indexHtml,

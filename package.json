@@ -12,7 +12,8 @@
         "tsc": "tsc",
         "release": "standard-version",
         "add": "git cz",
-        "install-peers": "npm-install-peers"
+        "install-peers": "npm-install-peers",
+        "publish": "git push --follow-tags origin master && npm publish"
     },
     "peerDependencies": {
         "@babel/cli": "^7.7.0",

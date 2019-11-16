@@ -60,7 +60,9 @@ var baseConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     alias: {
-      '~': _paths.paths.src
+      '~': _paths.paths.src,
+      '@': _paths.paths.nodeModules,
+      'react-dom': '@hot-loader/react-dom'
     }
   },
   plugins: [// Create asset manifest (allowing Laravel or other apps to get hashed asset names).

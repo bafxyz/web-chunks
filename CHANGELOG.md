@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/bafxyz/web-chunks/compare/v1.1.0...v1.1.1) (2019-11-16)
+
+
+### Bug Fixes
+
+* **optimization:** style and minifier ([b5e6221](https://github.com/bafxyz/web-chunks/commit/b5e62215e126a2eb77a09b10c1b21049aa55c818))
+
 ## 1.1.0 (2019-11-14)
 
 

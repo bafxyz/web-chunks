@@ -7,7 +7,7 @@
     "license": "MIT",
     "scripts": {
         "start": "babel src --out-dir dist --extensions '.ts,.tsx' --watch",
-        "build": "babel src --out-dir dist --extensions '.ts,.tsx'",
+        "build": "rm -rf dist && babel src --out-dir dist --extensions '.ts,.tsx'",
         "lint": "eslint --fix src/**/*.ts && pretty-quick",
         "tsc": "tsc",
         "release": "standard-version",

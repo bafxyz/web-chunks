@@ -1,8 +1,10 @@
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import { paths } from './paths'
+import { paths } from '../paths'
 
-export const developmentConfig = () => ({
+import { IProps } from '../types'
+
+export default (props: IProps) => ({
     // Set common development options. <goo.gl/3h6o6p>
     mode: 'development',
     // Enable source maps for development (inline, with faster rebuilds).

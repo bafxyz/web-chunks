@@ -1,95 +1,15 @@
-import webpack from 'webpack'
-import { WebpackOptions } from 'webpack/declarations/WebpackOptions'
 import merge from 'webpack-merge'
-import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import WebpackAssetsManifest from 'webpack-assets-manifest'
 
-import eslintLoader from './loaders/eslint'
-import babelLoader from './loaders/babel'
-import cssLoader from './loaders/css'
-import sassLoader from './loaders/sass'
-import imageLoader from './loaders/image'
-import fontsLoader from './loaders/fonts'
-import svgxLoader from './loaders/svgx'
-import rawLoader from './loaders/raw'
-import mjsLoader from './loaders/mjs'
-import sourceMapLoader from './loaders/source-map'
-import { developmentConfig } from './development'
-import { productionConfig } from './production'
-import { paths } from './paths'
+import common from './common'
+import client from './client'
+import server from './server'
 
-// Default Webpack configuration
-// @see: https://webpack.js.org/configuration/
-const baseConfig = {
-    entry: {
-        app: `${paths.src}/index.ts`
-    },
+import { IProps, EMode } from './types'
 
-    output: {
-        filename: '[name]-[chunkhash].js',
-        path: paths.dist
-    },
+const config = (props: IProps) => {
+    const { mode = EMode.CLIENT } = props
 
-    module: {
-        rules: [
-            // Lint JavaScript/TypeScript files.
-            eslintLoader(),
-            // Bundle JavaScript, and transform to ES6 using Babel.
-            babelLoader(),
-            // Bundle CSS stylesheets and process with PostCSS, extract to single CSS file per bundle.
-            cssLoader(),
-            // Bundle SCSS stylesheets (processed with LibSass & PostCSS), extract to single CSS file per bundle.
-            sassLoader(),
-            // Bundle image with optimization
-            imageLoader(),
-            // Bundle fonts
-            fontsLoader(),
-            // Allowing for inline usage of a SVG as a React component
-            svgxLoader(),
-            // Bundles files as text
-            rawLoader(),
-            // Mjs type handler
-            mjsLoader(),
-            // Creates source maps.
-            sourceMapLoader()
-        ]
-    },
-
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-        alias: {
-            '~': paths.src,
-            '@': paths.nodeModules,
-            'react-dom': '@hot-loader/react-dom'
-        }
-    },
-
-    plugins: [
-        // Create asset manifest (allowing Laravel or other apps to get hashed asset names).
-        new WebpackAssetsManifest({
-            output: 'rev-manifest.json'
-        })
-    ]
+    return merge(common(props), mode === EMode.SERVER ? server(props) : client(props), props.options)
 }
 
-// Export a `config()` function for applications to
-// import & extend in their `webpack.config.js` files.
-module.exports = (options: WebpackOptions) => (env: string) => {
-    const isProduction = env === 'production'
-    const environmentConfig: any = isProduction ? productionConfig() : developmentConfig()
-    // Apply any final options based on the merged config.
-    const extraConfig = {
-        plugins: [
-            // Set NODE_ENV based on the provided Webpack environment.
-            new webpack.DefinePlugin({
-                NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development')
-            }),
-            // Clean the output path before builds.
-            new CleanWebpackPlugin()
-        ]
-    }
-
-    const result = merge(baseConfig, environmentConfig, options, extraConfig)
-
-    return result
-}
+module.exports = config

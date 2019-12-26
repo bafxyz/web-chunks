@@ -12,9 +12,13 @@
         "strict": true,
         // Import non-ES modules as default imports.
         "esModuleInterop": true,
-        "jsx": "react"
+        "outDir": "dist",
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"],
+            "*": ["node_modules/@types/*", "src/types/*"]
+        }
     },
-    "include": [
-        "src" // <-- change this to where your source files are
-    ]
+    "include": ["src/**/*.ts*", "src/**/*.js*"],
+    "exclude": ["node_modules", "**/*.test.ts", "**/*.test.js", "src/types"]
 }

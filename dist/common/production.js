@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.productionConfig = void 0;
+exports["default"] = void 0;
 
 var _terserWebpackPlugin = _interopRequireDefault(require("terser-webpack-plugin"));
 
 var _htmlWebpackPlugin = _interopRequireDefault(require("html-webpack-plugin"));
 
-var _paths = require("./paths");
+var _paths = require("../paths");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var productionConfig = function productionConfig() {
+var _default = function _default(props) {
   return {
     // Set common production options. <goo.gl/nYfBtH>
     mode: 'production',
@@ -54,4 +54,4 @@ var productionConfig = function productionConfig() {
   };
 };
 
-exports.productionConfig = productionConfig;
+exports["default"] = _default;

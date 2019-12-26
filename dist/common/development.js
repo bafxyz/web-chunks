@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.developmentConfig = void 0;
+exports["default"] = void 0;
 
 var _webpack = _interopRequireDefault(require("webpack"));
 
 var _htmlWebpackPlugin = _interopRequireDefault(require("html-webpack-plugin"));
 
-var _paths = require("./paths");
+var _paths = require("../paths");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var developmentConfig = function developmentConfig() {
+var _default = function _default(props) {
   return {
     // Set common development options. <goo.gl/3h6o6p>
     mode: 'development',
@@ -43,4 +43,4 @@ var developmentConfig = function developmentConfig() {
   };
 };
 
-exports.developmentConfig = developmentConfig;
+exports["default"] = _default;

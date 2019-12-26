@@ -1,8 +1,10 @@
 import TerserPlugin from 'terser-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import { paths } from './paths'
+import { paths } from '../paths'
 
-export const productionConfig = () => ({
+import { IProps } from '../types'
+
+export default (props: IProps) => ({
     // Set common production options. <goo.gl/nYfBtH>
     mode: 'production',
     // Enable source maps for production (in a separate file, so they
